@@ -1,6 +1,6 @@
-package com.octobroccoli.MS1.model;
+package com.octobroccoli.MS1.dto;
 
-public class Usuario {
+public class UsuarioDTO {
 
     private Integer id;
 
@@ -10,14 +10,14 @@ public class Usuario {
 
     private String senha;
 
-    public Usuario(Integer id, String nome, String email, String senha) {
+    public UsuarioDTO() {
+    }
+
+    public UsuarioDTO(Integer id, String nome, String email, String senha) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
-    }
-
-    public Usuario() {
     }
 
     public Integer getId() {
