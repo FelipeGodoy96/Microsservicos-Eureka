@@ -32,6 +32,12 @@ public class ProjetoService {
         return Optional.of(dto);
     }
 
+    public List<ProjetoDTO> obterTodosPorResponsavel(Integer id) {
+        List<Projeto> projetos = repository.findAll();
+        List<Projeto> projetosFiltrados = projetos.stream().filter(projeto -> projeto.getResponsavel_id().equals(id)).collect(Collectors.toList());
+        return projetosFiltrados.stream().map(projeto -> new ModelMapper().map(projeto, ProjetoDTO.class)).collect(Collectors.toList());
+    }
+
     public ProjetoDTO criarProjeto(ProjetoDTO projetoDto) {
         projetoDto.setId(null); // Limpa ID para garantir cadastro de novo usuário.
         Projeto projeto = new ModelMapper().map(projetoDto, Projeto.class);

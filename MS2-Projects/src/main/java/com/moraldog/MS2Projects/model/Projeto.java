@@ -6,6 +6,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import org.hibernate.mapping.List;
 
+import java.util.Objects;
+
 @Entity
 public class Projeto {
 
@@ -21,18 +23,16 @@ public class Projeto {
 
     private Integer responsavel_id;
 
-    private List tarefas;
 
     public Projeto() {
     }
 
-    public Projeto(Integer id, String nome, String descricao, Double orcamento, Integer responsavel_id, List tarefas) {
+    public Projeto(Integer id, String nome, String descricao, Double orcamento, Integer responsavel_id) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.orcamento = orcamento;
         this.responsavel_id = responsavel_id;
-        this.tarefas = tarefas;
     }
 
     public Integer getId() {
@@ -75,11 +75,16 @@ public class Projeto {
         this.responsavel_id = responsavel_id;
     }
 
-    public List getTarefas() {
-        return tarefas;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Projeto projeto = (Projeto) o;
+        return Objects.equals(responsavel_id, projeto.responsavel_id);
     }
 
-    public void setTarefas(List tarefas) {
-        this.tarefas = tarefas;
+    @Override
+    public int hashCode() {
+        return Objects.hash(responsavel_id);
     }
 }

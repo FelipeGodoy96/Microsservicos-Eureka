@@ -1,7 +1,4 @@
-package com.moraldog.MS2Projects.dto;
-
-
-import java.util.Objects;
+package com.octobroccoli.MS1.dto;
 
 public class ProjetoDTO {
 
@@ -14,18 +11,6 @@ public class ProjetoDTO {
     private Double orcamento;
 
     private Integer responsavel_id;
-
-
-    public ProjetoDTO() {
-    }
-
-    public ProjetoDTO(Integer id, String nome, String descricao, Double orcamento, Integer responsavel_id) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.orcamento = orcamento;
-        this.responsavel_id = responsavel_id;
-    }
 
     public Integer getId() {
         return id;
@@ -65,18 +50,5 @@ public class ProjetoDTO {
 
     public void setResponsavel_id(Integer responsavel_id) {
         this.responsavel_id = responsavel_id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProjetoDTO that = (ProjetoDTO) o;
-        return Objects.equals(responsavel_id, that.responsavel_id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(responsavel_id);
     }
 }

@@ -19,20 +19,29 @@ public class ProjetoController {
 
     @GetMapping
     public ResponseEntity<List<ProjetoDTO>> obterTodosProjetos() {
-        List<ProjetoDTO> usuarios = service.obterTodosProjetos();
-        return new ResponseEntity<>(usuarios, HttpStatus.OK);
+        List<ProjetoDTO> projetos = service.obterTodosProjetos();
+        return new ResponseEntity<>(projetos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<ProjetoDTO>> obterProjetoPorId(@PathVariable Integer id) {
-        Optional<ProjetoDTO> usuario = service.obterProjetoPorId(id);
-        return new ResponseEntity<>(Optional.of(usuario).get(), HttpStatus.OK);
+        Optional<ProjetoDTO> projeto = service.obterProjetoPorId(id);
+        return new ResponseEntity<>(Optional.of(projeto).get(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/lista")
+    public ResponseEntity<List<ProjetoDTO>> obterPorResponsável (@PathVariable Integer id) {
+        List<ProjetoDTO> projetos = service.obterTodosPorResponsavel(id);
+        if (projetos.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(projetos, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<ProjetoDTO> cadastrarProjeto(@RequestBody ProjetoDTO usuario) {
-        usuario = service.criarProjeto(usuario);
-        return new ResponseEntity<>(usuario, HttpStatus.CREATED);
+    public ResponseEntity<ProjetoDTO> cadastrarProjeto(@RequestBody ProjetoDTO projeto) {
+        projeto = service.criarProjeto(projeto);
+        return new ResponseEntity<>(projeto, HttpStatus.CREATED);
     }
 
     @DeleteMapping
@@ -42,9 +51,9 @@ public class ProjetoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProjetoDTO> atualizarCadastroProjeto(@PathVariable Integer id, @RequestBody ProjetoDTO usuario) {
-        usuario = service.atualizarProjeto(id, usuario);
-        return new ResponseEntity<>(usuario, HttpStatus.OK);
+    public ResponseEntity<ProjetoDTO> atualizarCadastroProjeto(@PathVariable Integer id, @RequestBody ProjetoDTO projeto) {
+        projeto = service.atualizarProjeto(id, projeto);
+        return new ResponseEntity<>(projeto, HttpStatus.OK);
     }
 
 }
