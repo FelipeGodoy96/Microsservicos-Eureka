@@ -1,5 +1,7 @@
 package com.octobroccoli.MS1.dto;
 
+import java.util.List;
+
 public class UsuarioDTO {
 
     private Integer id;
@@ -10,14 +12,25 @@ public class UsuarioDTO {
 
     private String senha;
 
+    private List<ProjetoDTO> projetos;
+
     public UsuarioDTO() {
     }
 
-    public UsuarioDTO(Integer id, String nome, String email, String senha) {
+    public UsuarioDTO(Integer id, String nome, String email, String senha, List<ProjetoDTO> projetos) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+        this.projetos = projetos;
+    }
+
+    public List<ProjetoDTO> getProjetos() {
+        return projetos;
+    }
+
+    public void setProjetos(List<ProjetoDTO> projetos) {
+        this.projetos = projetos;
     }
 
     public Integer getId() {

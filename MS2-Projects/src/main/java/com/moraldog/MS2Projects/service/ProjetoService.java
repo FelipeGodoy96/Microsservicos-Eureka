@@ -26,7 +26,7 @@ public class ProjetoService {
     public Optional<ProjetoDTO> obterProjetoPorId(Integer id) {
         Optional<Projeto> projeto = repository.findById(id);
         if (projeto.isEmpty()) {
-            throw new RuntimeException("Usuário especificado não encontrado");
+            throw new RuntimeException("Projeto especificado não encontrado");
         }
         ProjetoDTO dto = new ModelMapper().map(projeto.get(), ProjetoDTO.class);
         return Optional.of(dto);
@@ -47,14 +47,14 @@ public class ProjetoService {
 
     public void deletarProjeto(Integer id) {
         if (obterProjetoPorId(id).isEmpty()) {
-            throw new RuntimeException("Usuário especificado não existe");
+            throw new RuntimeException("Projeto especificado não existe");
         }
         repository.deleteById(id);
     }
 
     public ProjetoDTO atualizarProjeto(Integer id, ProjetoDTO projetoDto) {
         if (obterProjetoPorId(id).isEmpty()) {
-            throw new RuntimeException("Usuário especificado não existe");
+            throw new RuntimeException("Projeto especificado não existe");
         }
         projetoDto.setId(id);
         Projeto projeto = new ModelMapper().map(projetoDto, Projeto.class);

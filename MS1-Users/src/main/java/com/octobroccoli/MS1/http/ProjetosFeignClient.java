@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
+// Funciona como um repository
 @FeignClient(name = "moral-dog")
 public interface ProjetosFeignClient {
 

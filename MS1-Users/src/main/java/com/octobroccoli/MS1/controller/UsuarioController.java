@@ -1,15 +1,12 @@
 package com.octobroccoli.MS1.controller;
 
 import com.octobroccoli.MS1.dto.UsuarioDTO;
-import com.octobroccoli.MS1.model.Usuario;
 import com.octobroccoli.MS1.service.UsuarioService;
-import org.apache.commons.configuration.interpol.ExprLookup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +27,10 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<UsuarioDTO>> obterUsuarioPorId(@PathVariable Integer id) {
         Optional<UsuarioDTO> usuario = service.obterUsuarioPorId(id);
-        return new ResponseEntity<>(Optional.of(usuario).get(), HttpStatus.OK);
+        if (usuario.isPresent()) {
+            return new ResponseEntity<>(Optional.of(usuario).get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping

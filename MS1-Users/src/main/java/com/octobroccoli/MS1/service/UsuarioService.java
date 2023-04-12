@@ -1,7 +1,10 @@
 package com.octobroccoli.MS1.service;
 
+import com.octobroccoli.MS1.dto.ProjetoDTO;
 import com.octobroccoli.MS1.dto.UsuarioDTO;
+import com.octobroccoli.MS1.http.ProjetosFeignClient;
 import com.octobroccoli.MS1.model.Usuario;
+import com.octobroccoli.MS1.model.exception.ResourceNotFoundException;
 import com.octobroccoli.MS1.repository.UsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +15,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UsuarioService extends RuntimeException {
+public class UsuarioService {
 
     @Autowired
     UsuarioRepository repository;
+
+    @Autowired
+    ProjetosFeignClient projetosRepository;
 
     public List<UsuarioDTO> obterTodosUsuarios() {
         List<Usuario> usuarios = repository.findAll();
@@ -25,9 +31,13 @@ public class UsuarioService extends RuntimeException {
     public Optional<UsuarioDTO> obterUsuarioPorId(Integer id) {
         Optional<Usuario> usuario = repository.findById(id);
         if (usuario.isEmpty()) {
-            throw new RuntimeException("Usuário especificado não encontrado");
+            throw new ResourceNotFoundException("Usuário especificado não encontrado");
         }
         UsuarioDTO dto = new ModelMapper().map(usuario.get(), UsuarioDTO.class);
+        // Instancio uma lista de projetos chamando dependencia/repository de projetos.
+        List <ProjetoDTO> projetos = projetosRepository.obterProjetos(id);
+        // Passo a lista obtida para o objeto dto através do método Set.
+        dto.setProjetos(projetos);
         return Optional.of(dto);
     }
 
@@ -40,14 +50,14 @@ public class UsuarioService extends RuntimeException {
 
     public void deletarUsuario(Integer id) {
         if (obterUsuarioPorId(id).isEmpty()) {
-            throw new RuntimeException("Usuário especificado não existe");
+            throw new ResourceNotFoundException("Usuário especificado não existe");
         }
         repository.deleteById(id);
     }
 
     public UsuarioDTO atualizarUsuario(Integer id, UsuarioDTO usuarioDto) {
         if (obterUsuarioPorId(id).isEmpty()) {
-            throw new RuntimeException("Usuário especificado não existe");
+            throw new ResourceNotFoundException("Usuário especificado não existe");
         }
         usuarioDto.setId(id);
         Usuario usuario = new ModelMapper().map(usuarioDto, Usuario.class);
