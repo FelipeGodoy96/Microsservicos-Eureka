@@ -11,7 +11,7 @@ import java.util.List;
 @FeignClient(name = "moral-dog")
 public interface ProjetosFeignClient {
 
-    @GetMapping(path = "/projetos/{id}/lista")
-    List<ProjetoDTO> obterProjetos(@PathVariable Integer id);
+    @GetMapping(path = "/projects/responsavel/{id}")
+    List<ProjetoDTO> obterProjetosPorResponsável(@PathVariable Integer id);
 
 }

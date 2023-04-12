@@ -2,6 +2,8 @@ package com.octobroccoli.MS1.controller;
 
 import com.octobroccoli.MS1.dto.UsuarioDTO;
 import com.octobroccoli.MS1.service.UsuarioService;
+import com.octobroccoli.MS1.view.UsuarioResponseDetails;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +27,11 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<UsuarioDTO>> obterUsuarioPorId(@PathVariable Integer id) {
+    public ResponseEntity<Optional<UsuarioResponseDetails>> obterUsuarioPorId(@PathVariable Integer id) {
         Optional<UsuarioDTO> usuario = service.obterUsuarioPorId(id);
         if (usuario.isPresent()) {
-            return new ResponseEntity<>(Optional.of(usuario).get(), HttpStatus.OK);
+            UsuarioResponseDetails resposta = new ModelMapper().map(usuario.get(), UsuarioResponseDetails.class);
+            return new ResponseEntity<>(Optional.of(resposta), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

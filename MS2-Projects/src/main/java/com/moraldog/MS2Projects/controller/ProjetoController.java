@@ -29,7 +29,7 @@ public class ProjetoController {
         return new ResponseEntity<>(Optional.of(projeto).get(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/lista")
+    @GetMapping("/responsavel/{id}")
     public ResponseEntity<List<ProjetoDTO>> obterPorResponsável (@PathVariable Integer id) {
         List<ProjetoDTO> projetos = service.obterTodosPorResponsavel(id);
         if (projetos.isEmpty()) {

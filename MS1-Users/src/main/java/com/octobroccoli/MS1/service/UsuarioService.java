@@ -6,6 +6,7 @@ import com.octobroccoli.MS1.http.ProjetosFeignClient;
 import com.octobroccoli.MS1.model.Usuario;
 import com.octobroccoli.MS1.model.exception.ResourceNotFoundException;
 import com.octobroccoli.MS1.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,15 +31,16 @@ public class UsuarioService {
 
     public Optional<UsuarioDTO> obterUsuarioPorId(Integer id) {
         Optional<Usuario> usuario = repository.findById(id);
-        if (usuario.isEmpty()) {
-            throw new ResourceNotFoundException("Usuário especificado não encontrado");
+        if (usuario.isPresent()) {
+            UsuarioDTO dto = new ModelMapper().map(usuario.get(), UsuarioDTO.class);
+            // Instancio uma lista de projetos chamando dependencia/repository de projetos.
+            List <ProjetoDTO> projetos = projetosRepository.obterProjetosPorResponsável(id);
+            System.out.println(projetos);
+            // Passo a lista obtida para o objeto dto através do método Set.
+            dto.setProjetos(projetos);
+            return Optional.of(dto);
         }
-        UsuarioDTO dto = new ModelMapper().map(usuario.get(), UsuarioDTO.class);
-        // Instancio uma lista de projetos chamando dependencia/repository de projetos.
-        List <ProjetoDTO> projetos = projetosRepository.obterProjetos(id);
-        // Passo a lista obtida para o objeto dto através do método Set.
-        dto.setProjetos(projetos);
-        return Optional.of(dto);
+        return Optional.empty();
     }
 
     public UsuarioDTO criarUsuario(UsuarioDTO usuarioDto) {

@@ -1,9 +1,12 @@
 package com.octobroccoli.MS1.model;
 
+import com.octobroccoli.MS1.dto.ProjetoDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
+import java.util.List;
 
 @Entity
 public class Usuario {
@@ -16,6 +19,7 @@ public class Usuario {
     private String email;
 
     private String senha;
+
 
     public Usuario(Integer id, String nome, String email, String senha) {
         this.id = id;
